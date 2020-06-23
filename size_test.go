@@ -1,7 +1,6 @@
 package size
 
 import (
-	"reflect"
 	"testing"
 )
 
@@ -15,8 +14,5 @@ func TestOf(t *testing.T) {
 				t.Errorf("Of() = %v, want %v", got, tt.want)
 			}
 		})
-
-		// cleaning recursion detection cache
-		values = make(map[reflect.Value]bool)
 	}
 }

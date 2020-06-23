@@ -10,27 +10,22 @@ import (
 // Of returns the size of 'v' in bytes.
 // If there is an error during calculation, Of returns -1.
 func Of(v interface{}) int {
-	n := sizeOf(reflect.Indirect(reflect.ValueOf(v)))
-	values = make(map[reflect.Value]bool) // hence cache is a global var it needs to be wiped
-	return n
+	cache := make(map[reflect.Value]bool) // cache with every visited addressable object for recursion detection
+	return sizeOf(reflect.Indirect(reflect.ValueOf(v)), cache)
 }
-
-// Cache store for recursion detection.
-// Every visited addressable Value placed here for avoiding future recursion.
-var values map[reflect.Value]bool = make(map[reflect.Value]bool)
 
 // sizeOf returns the number of bytes the actual data represented by v occupies in memory.
 // If there is an error, sizeOf returns -1.
-func sizeOf(v reflect.Value) int {
+func sizeOf(v reflect.Value, cache map[reflect.Value]bool) int {
 
 	// If Value is in cache then it's been already visited - hence it's infinite recursion.
-	if v.CanAddr() && values[v] {
+	if v.CanAddr() && cache[v] {
 		return 0
 	}
 
 	// Every addressable value stored in cache to avoid infinite recursion.
 	if v.CanAddr() {
-		values[v] = true
+		cache[v] = true
 	}
 
 	switch v.Kind() {
@@ -40,7 +35,7 @@ func sizeOf(v reflect.Value) int {
 	case reflect.Slice:
 		sum := 0
 		for i := 0; i < v.Len(); i++ {
-			s := sizeOf(v.Index(i))
+			s := sizeOf(v.Index(i), cache)
 			if s < 0 {
 				return -1
 			}
@@ -52,7 +47,7 @@ func sizeOf(v reflect.Value) int {
 	case reflect.Struct:
 		sum := 0
 		for i, n := 0, v.NumField(); i < n; i++ {
-			s := sizeOf(v.Field(i))
+			s := sizeOf(v.Field(i), cache)
 			if s < 0 {
 				return -1
 			}
@@ -69,7 +64,7 @@ func sizeOf(v reflect.Value) int {
 		if v.IsNil() {
 			return 0
 		}
-		s := sizeOf(reflect.Indirect(v))
+		s := sizeOf(reflect.Indirect(v), cache)
 		if s < 0 {
 			return -1
 		}
