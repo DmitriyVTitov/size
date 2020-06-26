@@ -7,7 +7,7 @@ Sometimes you may need a tool to measure the size of object in your Go program a
 Features:
 - supports non-fixed size variables and struct fields: `struct`, `int`, `slice`, `string`;
 - supports coplex types including structs with non-fixed size fields;
-- implements infinite recursion detection (i.e. pointer inside struct field references to parents truct);
+- implements infinite recursion detection (i.e. pointer inside struct field references to parent struct);
 - supports pointers.
 
 TODO: 
