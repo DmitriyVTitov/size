@@ -1,4 +1,4 @@
-# size
+# size - Go package for calculation variable size at runtime
 
 ### Part of the [Transflow Project](http://transflow.ru/)
 
