@@ -1,5 +1,9 @@
 # size
+
+### Part of the [Transflow Project](http://transflow.ru/)
+
 Sometimes you may need a tool to measure the size of object in your Go program at runtime. This package makes an attempt to do so.
+
 
 ### Usage example
 
