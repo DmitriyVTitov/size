@@ -2,8 +2,16 @@
 
 ### Part of the [Transflow Project](http://transflow.ru/)
 
-Sometimes you may need a tool to measure the size of object in your Go program at runtime. This package makes an attempt to do so.
+Sometimes you may need a tool to measure the size of object in your Go program at runtime. This package makes an attempt to do so. Package based on `binary.Size()` from Go standard library.
 
+Features:
+- supports non-fixed size variables and struct fields: `struct`, `int`, `slice`, `string`;
+- supports coplex types including structs with non-fixed size fields;
+- implements infinite recursion detection (i.e. pointer inside struct field references to parents truct);
+- supports pointers.
+
+TODO: 
+- support for `map`, `interface` and `chan`.
 
 ### Usage example
 
