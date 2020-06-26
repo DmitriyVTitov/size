@@ -1,4 +1,4 @@
-# size - Go package for calculation variable size at runtime
+# size - calculates variable memory consumption at runtime
 
 ### Part of the [Transflow Project](http://transflow.ru/)
 
