@@ -1,4 +1,4 @@
-# size - calculates variable memory consumption at runtime
+# size - calculates variable's memory consumption at runtime
 
 ### Part of the [Transflow Project](http://transflow.ru/)
 

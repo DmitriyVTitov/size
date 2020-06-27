@@ -107,6 +107,19 @@ func testCases() []testCase {
 		v8.data[i].parent = &v8
 	}
 
+	var v9 = make(map[int]string) // 42
+	v9[0] = "ABC"                 // 8 + 3
+	v9[1] = "CDEFG"               // 8 + 5
+	v9[2] = "ABCDEFGHHI"          // 8 + 10
+
+	var v10 interface{}
+	v10 = 100
+
+	var v11 interface{}
+	v11 = "ABCDEF"
+
+	var v12 = make(chan int) // 8 - size of chan in Go
+
 	var tests = []testCase{
 		{
 			name: "v1",
@@ -147,6 +160,26 @@ func testCases() []testCase {
 			name: "v8",
 			v:    v8,
 			want: 4,
+		},
+		{
+			name: "v9",
+			v:    v9,
+			want: 42,
+		},
+		{
+			name: "v10",
+			v:    v10,
+			want: 8,
+		},
+		{
+			name: "v11",
+			v:    v11,
+			want: 6,
+		},
+		{
+			name: "v12",
+			v:    v12,
+			want: 8,
 		},
 	}
 	return tests
