@@ -7,8 +7,8 @@ Sometimes you may need a tool to measure the size of object in your Go program a
 Features:
 - supports non-fixed size variables and struct fields: `struct`, `int`, `slice`, `string`, `map`;
 - supports complex types including structs with non-fixed size fields;
-- supports all basic types (numbers, bool)
-- supports `chan` and `interface`
+- supports all basic types (numbers, bool);
+- supports `chan` and `interface`;
 - supports pointers;
 - implements infinite recursion detection (i.e. pointer inside struct field references to parent struct).
 
