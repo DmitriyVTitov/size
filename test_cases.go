@@ -108,7 +108,7 @@ func testCases() []testCase {
 		v8.data[i].parent = &v8
 	}
 
-	var v9 = make(map[int]string) // 90 + 8 = 98 - size of Map is 8
+	var v9 = make(map[int]string) // 90 + 8 + 10.79*3 = 130 - size of Map is 8
 	v9[0] = "ABC"                 // 8 + 3 + 16 = 27
 	v9[1] = "CDEFG"               // 8 + 5 + 16 = 29
 	v9[2] = "ABCDEFGHHI"          // 8 + 10 + 16 = 34
@@ -165,7 +165,7 @@ func testCases() []testCase {
 		{
 			name: "v9",
 			v:    v9,
-			want: 98,
+			want: 130,
 		},
 		{
 			name: "v10",
