@@ -100,7 +100,9 @@ func sizeOf(v reflect.Value, cache map[uintptr]bool) int {
 			}
 			sum += sk
 		}
-		return sum + int(v.Type().Size())
+		// Include overhead due to unused map buckets.  10.79 comes
+		// from https://golang.org/src/runtime/map.go.
+		return sum + int(v.Type().Size()) + int(float64(len(keys)) * 10.79)
 
 	case reflect.Interface:
 		return sizeOf(v.Elem(), cache) + int(v.Type().Size())
