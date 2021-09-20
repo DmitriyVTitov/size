@@ -73,8 +73,9 @@ func sizeOf(v reflect.Value, cache map[uintptr]bool) int {
 	case reflect.Bool,
 		reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64,
 		reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64,
-		reflect.Int,
+		reflect.Int, reflect.Uint,
 		reflect.Chan,
+		reflect.Uintptr,
 		reflect.Float32, reflect.Float64, reflect.Complex64, reflect.Complex128:
 		return int(v.Type().Size())
 
@@ -102,7 +103,7 @@ func sizeOf(v reflect.Value, cache map[uintptr]bool) int {
 		}
 		// Include overhead due to unused map buckets.  10.79 comes
 		// from https://golang.org/src/runtime/map.go.
-		return sum + int(v.Type().Size()) + int(float64(len(keys)) * 10.79)
+		return sum + int(v.Type().Size()) + int(float64(len(keys))*10.79)
 
 	case reflect.Interface:
 		return sizeOf(v.Elem(), cache) + int(v.Type().Size())
