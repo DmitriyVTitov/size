@@ -27,14 +27,13 @@ type t3 struct {
 }
 
 func testCases() []testCase {
-
-	var v1 = t1{
+	v1 := t1{
 		a: 10,              // 8
 		b: `1234567890123`, // 13 + 16
 		c: 20,              // 8
 	}
 
-	var v2 = struct {
+	v2 := struct {
 		a int
 		b string
 		c t1
@@ -48,7 +47,7 @@ func testCases() []testCase {
 		},
 	}
 
-	var v3 = struct {
+	v3 := struct {
 		a int
 		b string
 		c t1
@@ -64,7 +63,7 @@ func testCases() []testCase {
 		d: [3]int{11, 22, 33}, // 8 * 3 = 24 + 24 = 48
 	}
 
-	var v4 = struct {
+	v4 := struct {
 		a int
 		b string
 		c t1
@@ -84,17 +83,17 @@ func testCases() []testCase {
 		b: "String", // 38
 	}
 
-	var v6 = t2{
+	v6 := t2{
 		a: []int{1, 2, 3}, // 32 + 24 = 56
 		b: v5,             // 38
 	}
 
-	var v7 = t2{
+	v7 := t2{
 		a: []int{1, 2, 3}, // 24 + 24 = 48
 		// ptr = 8
 	}
 
-	var v8 = t4{
+	v8 := t4{
 		data: []t3{ // 24
 			{
 				text: "c1", // 2 + 16 + 8 = 26
@@ -108,10 +107,10 @@ func testCases() []testCase {
 		v8.data[i].parent = &v8
 	}
 
-	var v9 = make(map[int]string) // 90 + 8 + 10.79*3 = 130 - size of Map is 8
-	v9[0] = "ABC"                 // 8 + 3 + 16 = 27
-	v9[1] = "CDEFG"               // 8 + 5 + 16 = 29
-	v9[2] = "ABCDEFGHHI"          // 8 + 10 + 16 = 34
+	v9 := make(map[int]string) // 90 + 8 + 10.79*3 = 130 - size of Map is 8
+	v9[0] = "ABC"              // 8 + 3 + 16 = 27
+	v9[1] = "CDEFG"            // 8 + 5 + 16 = 29
+	v9[2] = "ABCDEFGHHI"       // 8 + 10 + 16 = 34
 
 	var v10 interface{}
 	v10 = 100 // 8
@@ -119,9 +118,17 @@ func testCases() []testCase {
 	var v11 interface{}
 	v11 = "ABCDEF" // 6 + 16 = 22
 
-	var v12 = make(chan int) // 8 - size of chan in Go
+	v12 := make(chan int) // 8 - size of chan in Go
 
-	var tests = []testCase{
+	v14 := struct { // 29 - due to padding
+		i int8
+		s string
+	}{
+		i: 0,       // 1 + 7 for padding
+		s: "hello", // 5 + 16
+	}
+
+	tests := []testCase{
 		{
 			name: "v1",
 			v:    v1,
@@ -181,6 +188,11 @@ func testCases() []testCase {
 			name: "v12",
 			v:    v12,
 			want: 8,
+		},
+		{
+			name: "v14",
+			v:    v14,
+			want: 29,
 		},
 	}
 	return tests
