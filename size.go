@@ -6,12 +6,15 @@ package size
 
 import (
 	"reflect"
+	"unsafe"
 )
 
 // Of returns the size of 'v' in bytes.
 // If there is an error during calculation, Of returns -1.
 func Of(v interface{}) int {
-	cache := make(map[uintptr]bool) // cache with every visited Pointer for recursion detection
+	// Cache with every visited pointer so we don't count two pointers
+	// to the same memory twice.
+	cache := make(map[uintptr]bool)
 	return sizeOf(reflect.Indirect(reflect.ValueOf(v)), cache)
 }
 
@@ -23,7 +26,7 @@ func sizeOf(v reflect.Value, cache map[uintptr]bool) int {
 	case reflect.Array:
 		fallthrough
 	case reflect.Slice:
-		// return 0 if this node has been visited already (infinite recursion)
+		// return 0 if this node has been visited already
 		if v.Kind() != reflect.Array && cache[v.Pointer()] {
 			return 0
 		}
@@ -59,7 +62,13 @@ func sizeOf(v reflect.Value, cache map[uintptr]bool) int {
 		return sum + padding
 
 	case reflect.String:
-		return len(v.String()) + int(v.Type().Size())
+		s := v.String()
+		hdr := (*reflect.StringHeader)(unsafe.Pointer(&s))
+		if cache[hdr.Data] {
+			return int(v.Type().Size())
+		}
+		cache[hdr.Data] = true
+		return len(s) + int(v.Type().Size())
 
 	case reflect.Ptr:
 		// return Ptr size if this node has been visited already (infinite recursion)

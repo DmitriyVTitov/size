@@ -120,6 +120,9 @@ func testCases() []testCase {
 
 	v12 := make(chan int) // 8 - size of chan in Go
 
+	s := "JKLMNOPQRSTUVWX"
+	v13 := struct{ x, y string }{x: s, y: s} // 47 - only count len(s) once
+
 	v14 := struct { // 29 - due to padding
 		i int8
 		s string
@@ -188,6 +191,11 @@ func testCases() []testCase {
 			name: "v12",
 			v:    v12,
 			want: 8,
+		},
+		{
+			name: "v13",
+			v:    v13,
+			want: 47,
 		},
 		{
 			name: "v14",
