@@ -18,7 +18,6 @@ func Of(v interface{}) int {
 // sizeOf returns the number of bytes the actual data represented by v occupies in memory.
 // If there is an error, sizeOf returns -1.
 func sizeOf(v reflect.Value, cache map[uintptr]bool) int {
-
 	switch v.Kind() {
 
 	case reflect.Array:
@@ -50,7 +49,14 @@ func sizeOf(v reflect.Value, cache map[uintptr]bool) int {
 			}
 			sum += s
 		}
-		return sum
+
+		// Look for struct padding.
+		padding := int(v.Type().Size())
+		for i, n := 0, v.NumField(); i < n; i++ {
+			padding -= int(v.Field(i).Type().Size())
+		}
+
+		return sum + padding
 
 	case reflect.String:
 		return len(v.String()) + int(v.Type().Size())
