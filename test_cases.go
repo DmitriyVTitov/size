@@ -131,6 +131,10 @@ func testCases() []testCase {
 		s: "hello", // 5 + 16
 	}
 
+	v15 := make([]string, 2, 5) // 24 + 19 + 21 + (5 - 2) * 16 = 112
+	v15[0] = "ABC"              // 3 + 16 = 19
+	v15[1] = "CDEFG"            // 5 + 16 = 21
+
 	tests := []testCase{
 		{
 			name: "v1",
@@ -201,6 +205,11 @@ func testCases() []testCase {
 			name: "v14",
 			v:    v14,
 			want: 29,
+		},
+		{
+			name: "v15",
+			v:    v15,
+			want: 112,
 		},
 	}
 	return tests
