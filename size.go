@@ -41,6 +41,9 @@ func sizeOf(v reflect.Value, cache map[uintptr]bool) int {
 			}
 			sum += s
 		}
+
+		sum += (v.Cap() - v.Len()) * int(v.Type().Elem().Size())
+
 		return sum + int(v.Type().Size())
 
 	case reflect.Struct:
