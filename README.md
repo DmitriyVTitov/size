@@ -19,7 +19,8 @@ package main
 
 import (
 	"fmt"
-
+	
+	// Use latest tag.
 	"github.com/DmitriyVTitov/size"
 )
 
@@ -33,15 +34,15 @@ func main() {
 		f [3]int64
 	}{
 		a: 10,                    // 8 bytes
-		b: "Text",                // 4 bytes
+		b: "Text",                // 16 + 4 = 20 bytes
 		c: true,                  // 1 byte
 		d: 25,                    // 4 bytes
-		e: []byte{'c', 'd', 'e'}, // 3 bytes
-		f: [3]int64{1, 2, 3},     // 24 bytes
+		e: []byte{'c', 'd', 'e'}, // 24 + 3 = 27 bytes
+		f: [3]int64{1, 2, 3},     // 24 + 24 = 48 bytes
 	}
 
 	fmt.Println(size.Of(a))
 }
 
-// Output: 44
+// Output: 111
 ```
