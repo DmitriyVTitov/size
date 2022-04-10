@@ -24,15 +24,24 @@ func sizeOf(v reflect.Value, cache map[uintptr]bool) int {
 	switch v.Kind() {
 
 	case reflect.Array:
-		fallthrough
+		sum := 0
+		for i := 0; i < v.Len(); i++ {
+			s := sizeOf(v.Index(i), cache)
+			if s < 0 {
+				return -1
+			}
+			sum += s
+		}
+
+		return sum + (v.Cap()-v.Len())*int(v.Type().Elem().Size())
+
 	case reflect.Slice:
 		// return 0 if this node has been visited already
-		if v.Kind() != reflect.Array && cache[v.Pointer()] {
+		if cache[v.Pointer()] {
 			return 0
 		}
-		if v.Kind() != reflect.Array {
-			cache[v.Pointer()] = true
-		}
+		cache[v.Pointer()] = true
+
 		sum := 0
 		for i := 0; i < v.Len(); i++ {
 			s := sizeOf(v.Index(i), cache)
