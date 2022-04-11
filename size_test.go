@@ -2,6 +2,8 @@ package size
 
 import (
 	"testing"
+
+	"github.com/golang/groupcache/lru"
 )
 
 func TestOf(t *testing.T) {
@@ -53,6 +55,14 @@ func TestOf(t *testing.T) {
 				}, // 20 + 7 (padding) = 27
 			}, // 40 + 2 + 27 = 69 + 6 (padding) = 75
 			want: 75,
+		},
+		{
+			name: "Struct With Func",
+			v: lru.Cache{
+				MaxEntries: 0,   // 8
+				OnEvicted:  nil, // 0
+			}, // + 16 (two more pointers) = 24
+			want: 24,
 		},
 	}
 	for _, tt := range tests {
