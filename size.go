@@ -103,7 +103,8 @@ func sizeOf(v reflect.Value, cache map[uintptr]bool) int {
 		reflect.Int, reflect.Uint,
 		reflect.Chan,
 		reflect.Uintptr,
-		reflect.Float32, reflect.Float64, reflect.Complex64, reflect.Complex128:
+		reflect.Float32, reflect.Float64, reflect.Complex64, reflect.Complex128,
+		reflect.Func:
 		return int(v.Type().Size())
 
 	case reflect.Map:
@@ -134,6 +135,7 @@ func sizeOf(v reflect.Value, cache map[uintptr]bool) int {
 
 	case reflect.Interface:
 		return sizeOf(v.Elem(), cache) + int(v.Type().Size())
+
 	}
 
 	return -1
