@@ -36,9 +36,9 @@ func sizeOf(v reflect.Value, cache map[uintptr]bool) int {
 		return sum + (v.Cap()-v.Len())*int(v.Type().Elem().Size())
 
 	case reflect.Slice:
-		// return 0 if this node has been visited already
+		// return Slice size if this node has been visited already
 		if cache[v.Pointer()] {
-			return 0
+			return int(v.Type().Size())
 		}
 		cache[v.Pointer()] = true
 
