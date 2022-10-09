@@ -1,4 +1,4 @@
-module github.com/slytomcat/size
+module github.com/DmitriyVTitov/size
 
 go 1.14
 
